@@ -8,9 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+      boxShadow: {
+        Me: "4px 2px 6px -1px rgb(0 0 0 / 0.2)",
+        hover: " 4px 2px 6px -1px rgb(0 0 0 / 0.7)",
       },
     },
   },
