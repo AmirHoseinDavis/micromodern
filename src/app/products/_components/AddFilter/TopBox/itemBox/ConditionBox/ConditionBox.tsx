@@ -3,22 +3,25 @@ import {
   KyesType,
 } from "@/app/products/types/inputProps.types";
 import data from "./data";
-import useStateConditions from "@/hooks/usQuery/useStateConditions/useStateConditions";
 import useUpdaiteQuery from "@/hooks/usQuery/useUpdaite/useUpdaiteQuery";
+import { useFormContext } from "react-hook-form";
 
 const ConditionBox = ({
   keyCondition,
 }: {
   keyCondition: Exclude<KyesType, "name">;
 }) => {
-  const { setCondition } = useStateConditions();
+
+  const { getValues } = useFormContext()
+
   const { updaiteDataQuery } = useUpdaiteQuery();
+  const value = getValues(keyCondition)
 
   const handleClick = (keyValue: KeyConditionsValue) => {
-    setCondition({ key: keyCondition, conditionState: keyValue });
+    // setCondition({ key: keyCondition, conditionState: keyValue });
     updaiteDataQuery({
       inputKey: keyCondition,
-      value: keyValue,
+      value: `${keyValue}${value}`,
     });
   };
 

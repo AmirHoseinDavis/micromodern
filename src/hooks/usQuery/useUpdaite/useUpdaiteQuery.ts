@@ -1,10 +1,10 @@
 // imports
-
 import { useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { PropsUpdaiteQuery, typeDataForm } from "./types";
 import useStateConditions from "../useStateConditions/useStateConditions";
-import checkFalsy from "@/app/products/helpers/checkFalsy";
+import { KyesType } from "@/app/products/types/inputProps.types";
+
 
 const useUpdaiteQuery = () => {
   // hooks and data
@@ -15,48 +15,65 @@ const useUpdaiteQuery = () => {
 
   // updaite data query
   const updaiteDataQuery = ({ inputKey, value }: PropsUpdaiteQuery) => {
-    // console.log(value);
 
-    if (!checkFalsy(value)) return;
+
+    // get  prev value  and get conditions
     const tempQuery = { ...dataQueryRef.current };
     const condition = KeysValue[inputKey as keyof typeof KeysValue];
 
-    console.log("Before deletion:", tempQuery);
 
-    if (value.toLowerCase().includes("rem")) {
-      delete tempQuery[inputKey];
-      delete dataQueryRef.current[inputKey];
-    } else if (condition) {
-      tempQuery[inputKey] = `${condition}${value}`;
+    // updaite conditions re/op
+    if (value.startsWith("op")) {
+      tempQuery[inputKey] = value;
     }
-    console.log("After deletion:", tempQuery);
+    else if (value.startsWith("re")) {
+      tempQuery[inputKey] = value
+    }
+    else if (value) {
+      tempQuery[inputKey] = `${condition}${value}`;
+    } else if (!value) {
+      delete tempQuery[inputKey];
+    }
 
-    setQuery(tempQuery);
+    // declare setQuery
+    setQuery(tempQuery, inputKey);
   };
 
   // set dataquery in query url
-  const setQuery = (tempQuery: typeDataForm) => {
+  const setQuery = (tempQuery: typeDataForm, inputKey: KyesType) => {
+
+
+    // get url and set new url
     const Params = new URLSearchParams(searchparams);
+
+
+
+    // delet params when value is not valide 
+    const validtempQuery = Object.keys(tempQuery).length
+    if (validtempQuery == 0) {
+      Params.delete(inputKey);
+    }
+
+
+    // set params when value is valid
 
     for (const key in tempQuery) {
       const validKey = key as keyof typeDataForm;
       const value = tempQuery[validKey];
 
       if (value) {
-        
-        Params.set(key, value);
-        if(value.toLowerCase().includes("rem")){
-          Params.delete(key)
-        }
 
+        Params.set(key, value);
       } else {
+
         Params.delete(key);
       }
     }
 
+
+    // push query data
     router.push(`?${Params.toString()}`);
 
-    return;
   };
 
   //  get query
@@ -68,6 +85,7 @@ const useUpdaiteQuery = () => {
 
     // delete pre name of value
     for (const key in obJectParamns) {
+      
       let value = obJectParamns[key];
 
       prefix.forEach((pre) => {

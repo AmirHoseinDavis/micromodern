@@ -19,7 +19,7 @@ const ItemBox = ({ item }: InputProps) => {
       {isOpen == item.id && (
         <div
           className="bg-blue-300 h-fit p-1 pt-2 absolute
-          w-[110%] z-10 flex flex-col justify-end rounded-b-md"
+          w-full z-10 flex flex-col justify-end rounded-b-md"
         >
           <InputButtom item={item} />
         </div>

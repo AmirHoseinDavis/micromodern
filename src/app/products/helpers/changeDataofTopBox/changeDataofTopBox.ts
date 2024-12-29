@@ -8,8 +8,14 @@ const changeDataofTopBox = ({ item }: { item: inputChangeData }) => {
   const dataMap = new Map(data.map((dataItem) => [dataItem.key, dataItem]));
   const ExportData: typeItemInputBoxTop[] = [];
 
-  Object.keys(item).forEach((keyItem) => {
+  Object.keys(item).forEach((keyItem ) => {
     const keyData = dataMap.get(keyItem as KyesType);
+
+    const value = item[keyItem] ;
+    if (!value) {
+      dataMap.delete(keyItem as KyesType);
+      return
+    }
 
     if (keyData) {
       ExportData.push({

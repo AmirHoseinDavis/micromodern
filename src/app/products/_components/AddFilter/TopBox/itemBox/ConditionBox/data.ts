@@ -14,9 +14,9 @@ export const data: PtypeData[] = [
     Key: "re",
     name: "و",
   },
-  {
-    Key: "remove",
-    name: "نباشد",
-  },
+  // {
+  //   Key: "remove",
+  //   name: "نباشد",
+  // },
 ];
 export default data;

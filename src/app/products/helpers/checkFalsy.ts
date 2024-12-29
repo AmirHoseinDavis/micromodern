@@ -1,7 +1,8 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const checkFalsy = (value: any) => {
-  if (!value || value == 0 || value === undefined || value === null) {
-    return;
+  
+  if (value == null || value === false || value == 0 ) {
+    return undefined;
   }
 
   return value;

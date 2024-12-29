@@ -8,6 +8,8 @@ const TopBox = () => {
   const { watch } = useFormContext();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data = changeDataofTopBox({ item: watch() as any });
+  // console.log(data);
+  
 
   return (
     <div className="mb-10">

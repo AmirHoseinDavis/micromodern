@@ -1,10 +1,16 @@
 import { conditions } from "./conditionsData.types";
 
+debugger
+
 const conditionData = ({ searchParams }: { searchParams: URLSearchParams }) => {
   // comper tp object of key value and remove key of undefine
   const query: { [key: string]: string } = Object.fromEntries(
     Array.from(searchParams.entries()).filter((_, value) => value !== undefined)
   );
+
+
+  console.log(searchParams);
+
 
   // object condition
   const conditions: conditions = {
@@ -18,7 +24,7 @@ const conditionData = ({ searchParams }: { searchParams: URLSearchParams }) => {
     // value
     const value = query[key];
 
-    // or
+    // op
     if (value.startsWith("op")) {
       // min
       if (key.startsWith("min")) {
@@ -37,7 +43,7 @@ const conditionData = ({ searchParams }: { searchParams: URLSearchParams }) => {
         const felId = key.replace("max", "").toLocaleLowerCase();
         conditions.OR?.push({
           [felId]: {
-            gte: +newValue,
+            lte: +newValue,
           },
         });
       }
@@ -62,7 +68,7 @@ const conditionData = ({ searchParams }: { searchParams: URLSearchParams }) => {
         const felId = key.replace("max", "").toLocaleLowerCase();
         conditions.AND?.push({
           [felId]: {
-            gte: +newValue,
+            lte: +newValue,
           },
         });
       }
