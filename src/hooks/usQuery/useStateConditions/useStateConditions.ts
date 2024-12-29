@@ -13,8 +13,8 @@ const useStateConditions = create<typeStateConditions>((set) => ({
   setCondition: ({ conditionState, key }) =>
     set((state) => ({
       KeysValue: {
-        [key]: conditionState,
         ...state.KeysValue,
+        [key]: conditionState,
       },
     })),
 }));

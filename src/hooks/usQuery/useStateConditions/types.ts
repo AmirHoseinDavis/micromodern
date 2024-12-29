@@ -1,6 +1,7 @@
-import { KyesType } from "@/app/products/types/inputProps.types";
-
-export type KeyConditionsValue = "op" | "re" | "remove";
+import {
+  KeyConditionsValue,
+  KyesType,
+} from "@/app/products/types/inputProps.types";
 
 export type typeStateConditions = {
   KeysValue: {

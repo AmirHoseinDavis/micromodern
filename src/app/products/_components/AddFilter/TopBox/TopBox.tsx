@@ -2,16 +2,18 @@
 
 import { useFormContext } from "react-hook-form";
 import ItemBox from "./itemBox/ItemBox";
+import changeDataofTopBox from "@/app/products/helpers/changeDataofTopBox/changeDataofTopBox";
 
 const TopBox = () => {
   const { watch } = useFormContext();
-  const data = Object.entries(watch());
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const data = changeDataofTopBox({ item: watch() as any });
 
   return (
     <div className="mb-10">
-      <ul>
+      <ul className="  border-2 border-gray-300 rounded-md p-2 spac1">
         {data.map((item) => (
-          <ItemBox key={item[0]} />
+          <ItemBox key={item.item.key} item={item.item} />
         ))}
       </ul>
     </div>

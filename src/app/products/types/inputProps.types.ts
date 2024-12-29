@@ -1,3 +1,5 @@
+export type KeyConditionsValue = "op" | "re" | "remove";
+
 export type KyesType =
   | "minPrice"
   | "maxPrice"

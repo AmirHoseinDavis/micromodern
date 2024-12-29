@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { PropsUpdaiteQuery, typeDataForm } from "./types";
 import useStateConditions from "../useStateConditions/useStateConditions";
-import { KeyConditionsValue } from "../useStateConditions/types";
+import checkFalsy from "@/app/products/helpers/checkFalsy";
 
 const useUpdaiteQuery = () => {
   // hooks and data
@@ -15,11 +15,21 @@ const useUpdaiteQuery = () => {
 
   // updaite data query
   const updaiteDataQuery = ({ inputKey, value }: PropsUpdaiteQuery) => {
+    // console.log(value);
+
+    if (!checkFalsy(value)) return;
     const tempQuery = { ...dataQueryRef.current };
     const condition = KeysValue[inputKey as keyof typeof KeysValue];
-    if (condition) {
+
+    console.log("Before deletion:", tempQuery);
+
+    if (value.toLowerCase().includes("rem")) {
+      delete tempQuery[inputKey];
+      delete dataQueryRef.current[inputKey];
+    } else if (condition) {
       tempQuery[inputKey] = `${condition}${value}`;
     }
+    console.log("After deletion:", tempQuery);
 
     setQuery(tempQuery);
   };
@@ -31,8 +41,16 @@ const useUpdaiteQuery = () => {
     for (const key in tempQuery) {
       const validKey = key as keyof typeDataForm;
       const value = tempQuery[validKey];
+
       if (value) {
+        
         Params.set(key, value);
+        if(value.toLowerCase().includes("rem")){
+          Params.delete(key)
+        }
+
+      } else {
+        Params.delete(key);
       }
     }
 
@@ -46,7 +64,7 @@ const useUpdaiteQuery = () => {
     const searchParams = new URLSearchParams(searchparams.toString());
     const obJectParamns = Object.fromEntries(searchParams);
 
-    const prefix = ["op", "re"];
+    const prefix = ["op", "re", "remove"];
 
     // delete pre name of value
     for (const key in obJectParamns) {
@@ -67,6 +85,7 @@ const useUpdaiteQuery = () => {
   return {
     updaiteDataQuery,
     getQuery,
+    setQuery,
   };
 };
 
